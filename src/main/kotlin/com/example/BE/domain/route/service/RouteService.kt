@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.RestClientException
+import tools.jackson.databind.PropertyNamingStrategies
+import tools.jackson.databind.annotation.JsonNaming
 
 @Service
 class RouteService(
-    @Value("\${ai.base-url}")
+    @Value("\${ai.base-url:http://localhost:8000}")
     private val aiBaseUrl: String,
 
-    @Value("\${ai.recommend-path}")
+    @Value("\${ai.recommend-path:/generate-plan}")
     private val recommendPath: String,
 ) {
     fun recommendRoute(request: AiRecommendationRequest): AiRecommendationResponse {
@@ -25,7 +27,7 @@ class RouteService(
         return try {
             restClient.post()
                 .uri(recommendPath)
-                .body(request)
+                .body(request.toAiRequest())
                 .retrieve()
                 .body(AiRecommendationResponse::class.java)
                 ?: throw SdsrException(ErrorCode.AI_SERVER_UNAVAILABLE)
@@ -33,4 +35,18 @@ class RouteService(
             throw SdsrException(ErrorCode.AI_SERVER_UNAVAILABLE)
         }
     }
+
+    private fun AiRecommendationRequest.toAiRequest(): AiPlannerRequest =
+        AiPlannerRequest(
+            startAddress = startAddress,
+            destAddress = destAddress,
+            startTime = startTime,
+        )
 }
+
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
+private data class AiPlannerRequest(
+    val startAddress: String,
+    val destAddress: String,
+    val startTime: String,
+)
