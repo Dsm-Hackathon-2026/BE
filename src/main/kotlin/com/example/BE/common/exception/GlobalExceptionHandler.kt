@@ -1,6 +1,7 @@
 package com.example.BE.common.exception
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -10,6 +11,25 @@ import org.springframework.web.multipart.MultipartException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+    @ExceptionHandler(AiServerException::class)
+    fun handleAiServerException(exception: AiServerException): ResponseEntity<Any> {
+        if (exception.responseBody.isNotBlank()) {
+            return ResponseEntity
+                .status(exception.statusCode)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(exception.responseBody)
+        }
+
+        return ResponseEntity
+            .status(exception.statusCode)
+            .body(
+                ErrorResponse(
+                    status = exception.statusCode.value(),
+                    message = "AI 추천 서버 요청에 실패했습니다.",
+                ),
+            )
+    }
+
     @ExceptionHandler(SdsrException::class)
     fun handleSdsrException(exception: SdsrException): ResponseEntity<ErrorResponse> {
         val errorCode = exception.errorCode
