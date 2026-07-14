@@ -14,4 +14,10 @@ data class TimelineItemResponse(
 
     @field:Schema(example = "서울특별시 강서구 공항대로 260")
     val address: String? = null,
+
+    @field:Schema(example = "126.836478")
+    val longitude: Double? = null,
+
+    @field:Schema(example = "37.541067")
+    val latitude: Double? = null,
 )
