@@ -18,7 +18,7 @@ class RouteService(
     @Value("\${ai.base-url}")
     private val aiBaseUrl: String,
 
-    @Value("\${ai.recommend-path")
+    @Value("\${ai.recommend-path}")
     private val recommendPath: String,
 ) {
     fun recommendRoute(request: AiRecommendationRequest): AiRecommendationResponse {
