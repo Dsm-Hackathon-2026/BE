@@ -29,6 +29,15 @@ class Content(
     @Column(name = "thumbnail_url", nullable = false)
     var thumbnailUrl: String,
 
+    @Column(name = "description", nullable = false)
+    var description: String = "",
+
+    @Column(name = "release_year", nullable = false)
+    var releaseYear: Int = 0,
+
+    @Column(name = "country", nullable = false)
+    var country: String = "",
+
     @Column(name = "view_count", nullable = false)
     var viewCount: Int = 0,
 ) {

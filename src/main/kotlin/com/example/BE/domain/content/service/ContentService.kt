@@ -6,6 +6,7 @@ import com.example.BE.domain.content.domain.Content
 import com.example.BE.domain.content.domain.ContentType
 import com.example.BE.domain.content.facade.ContentFacade
 import com.example.BE.domain.content.presentation.dto.response.ContentCardResponse
+import com.example.BE.domain.content.presentation.dto.response.ContentDetailResponse
 import com.example.BE.domain.content.presentation.dto.response.ContentSummaryResponse
 import com.example.BE.domain.content.presentation.dto.response.PagedContentResponse
 import org.springframework.stereotype.Service
@@ -27,8 +28,8 @@ class ContentService(
         contentFacade.findMostVisitedContents(contentType.toContentType(), limit)
             .map { it.toCard() }
 
-    fun contentDetail(contentId: Long): ContentCardResponse =
-        contentFacade.getContent(contentId).toCard()
+    fun contentDetail(contentId: Long): ContentDetailResponse =
+        contentFacade.getContent(contentId).toDetail()
 
     fun searchContents(keyword: String, page: Int, size: Int): PagedContentResponse {
         val matched = contentFacade.searchContents(keyword)
@@ -50,7 +51,6 @@ class ContentService(
             title = title,
             contentType = contentType.name,
             thumbnailUrl = thumbnailUrl,
-            spotCount = contentFacade.countSpots(id ?: 0),
             viewCount = viewCount,
         )
 
@@ -60,7 +60,17 @@ class ContentService(
             title = title,
             contentType = contentType.name,
             thumbnailUrl = thumbnailUrl,
-            spotCount = contentFacade.countSpots(id ?: 0),
+        )
+
+    private fun Content.toDetail(): ContentDetailResponse =
+        ContentDetailResponse(
+            contentId = id ?: 0,
+            title = title,
+            contentType = contentType.name,
+            thumbnailUrl = thumbnailUrl,
+            description = description,
+            releaseYear = releaseYear,
+            country = country,
         )
 
     private fun String.toContentType(): ContentType =

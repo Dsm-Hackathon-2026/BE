@@ -15,15 +15,12 @@ data class SpotListItemResponse(
     @field:Schema(example = "128.876057")
     val longitude: Double,
 
-    @field:Schema(example = "123456789")
-    val kakaoPlaceId: String,
+    @field:Schema(example = "강원특별자치도 강릉시 주문진읍 해안로 1609")
+    val address: String,
 
     @field:Schema(example = "https://example.com/spot/image.jpg")
     val imageUrl: String,
 
-    @field:Schema(example = "주인공들이 바닷가를 걷는 장면이 촬영된 장소입니다.")
-    val sceneDescription: String,
-
-    @field:Schema(example = "https://map.kakao.com/link/map/강릉 연진 해변,37.752175,128.876057")
-    val mapLink: String,
+    @field:Schema(example = "true")
+    val verified: Boolean,
 )

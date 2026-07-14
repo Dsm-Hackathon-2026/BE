@@ -15,9 +15,6 @@ data class ContentSummaryResponse(
     @field:Schema(example = "https://example.com/content/thumbnail.jpg")
     val thumbnailUrl: String,
 
-    @field:Schema(example = "5")
-    val spotCount: Int,
-
     @field:Schema(example = "128")
     val viewCount: Int,
 )

@@ -28,26 +28,22 @@ class SpotService(
             name = spot.name,
             latitude = spot.latitude,
             longitude = spot.longitude,
-            kakaoPlaceId = spot.kakaoPlaceId,
+            address = spot.address,
             imageUrl = spot.imageUrl,
-            description = spot.sceneDescription,
-            mapLink = spot.mapLink(),
-            totalVerifications = spotFacade.countVerifications(spot.id ?: 0),
         )
     }
 
-    private fun Spot.toListItem(): SpotListItemResponse =
-        SpotListItemResponse(
+    private fun Spot.toListItem(): SpotListItemResponse {
+        val verificationImageUrl = spotFacade.findSuccessVerificationImageUrl(id ?: 0)
+
+        return SpotListItemResponse(
             spotId = id ?: 0,
             name = name,
             latitude = latitude,
             longitude = longitude,
-            kakaoPlaceId = kakaoPlaceId,
+            address = address,
             imageUrl = imageUrl,
-            sceneDescription = sceneDescription,
-            mapLink = mapLink(),
+            verified = verificationImageUrl != null,
         )
-
-    private fun Spot.mapLink(): String =
-        "https://map.kakao.com/link/map/$name,$latitude,$longitude"
+    }
 }
