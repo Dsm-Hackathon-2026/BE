@@ -28,6 +28,12 @@ class Spot(
     @Column(name = "name", nullable = false)
     var name: String,
 
+    @Column(name = "latitude", nullable = false)
+    var latitude: Double,
+
+    @Column(name = "longitude", nullable = false)
+    var longitude: Double,
+
     @Column(name = "address", nullable = false)
     var address: String = "",
 

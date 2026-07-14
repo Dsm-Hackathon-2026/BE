@@ -26,6 +26,8 @@ class SpotService(
             contentId = spot.content.id ?: 0,
             contentTitle = spot.content.title,
             name = spot.name,
+            latitude = spot.latitude,
+            longitude = spot.longitude,
             address = spot.address,
             imageUrl = spot.imageUrl,
         )
@@ -37,6 +39,8 @@ class SpotService(
         return SpotListItemResponse(
             spotId = id ?: 0,
             name = name,
+            latitude = latitude,
+            longitude = longitude,
             address = address,
             imageUrl = imageUrl,
             verified = verificationImageUrl != null,
