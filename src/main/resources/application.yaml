@@ -41,3 +41,7 @@ cloud:
       static: ${AWS_REGION}
     s3:
       bucket: ${AWS_S3_BUCKET}
+
+ai:
+  base-url: ${AI_BASE_URL}
+  recommend-path: ${AI_RECOMMEND_PATH}

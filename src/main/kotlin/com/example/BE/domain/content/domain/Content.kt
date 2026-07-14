@@ -26,7 +26,7 @@ class Content(
     @Enumerated(EnumType.STRING)
     var contentType: ContentType,
 
-    @Column(name = "thumbnail_url", nullable = false)
+    @Column(name = "thumbnail_url", nullable = false, columnDefinition = "TEXT")
     var thumbnailUrl: String,
 
     @Column(name = "description", nullable = false)

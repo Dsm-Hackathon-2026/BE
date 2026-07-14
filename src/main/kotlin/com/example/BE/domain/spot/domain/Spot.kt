@@ -31,7 +31,7 @@ class Spot(
     @Column(name = "address", nullable = false)
     var address: String = "",
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
     var imageUrl: String,
 
     @Column(name = "scene_description", nullable = false)

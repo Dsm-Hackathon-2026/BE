@@ -26,7 +26,7 @@ class Verification(
     @JoinColumn(name = "spot_id", nullable = false)
     var spot: Spot,
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
     var imageUrl: String,
 
     @Enumerated(EnumType.STRING)
