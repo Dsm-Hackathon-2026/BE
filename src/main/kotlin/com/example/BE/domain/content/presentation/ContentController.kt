@@ -2,7 +2,7 @@ package com.example.BE.domain.content.presentation
 
 import com.example.BE.domain.content.service.ContentService
 import com.example.BE.domain.content.presentation.dto.response.ContentSliceResponse
-import com.example.BE.domain.content.presentation.dto.response.ContentCardResponse
+import com.example.BE.domain.content.presentation.dto.response.ContentDetailResponse
 import com.example.BE.domain.content.presentation.dto.response.ContentSummaryResponse
 import com.example.BE.domain.content.presentation.dto.response.PagedContentResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -84,7 +84,7 @@ class ContentController(
         SwaggerApiResponse(responseCode = "200", description = "콘텐츠 상세 조회 성공"),
     )
     @ResponseStatus(HttpStatus.OK)
-    fun getContentDetail(@PathVariable contentId: Long): ContentCardResponse {
+    fun getContentDetail(@PathVariable contentId: Long): ContentDetailResponse {
         return contentService.contentDetail(contentId)
     }
 

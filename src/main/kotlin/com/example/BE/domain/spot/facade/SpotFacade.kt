@@ -4,6 +4,7 @@ import com.example.BE.common.exception.ErrorCode
 import com.example.BE.common.exception.SdsrException
 import com.example.BE.domain.spot.domain.Spot
 import com.example.BE.domain.spot.domain.repository.SpotRepository
+import com.example.BE.domain.verification.domain.VerificationStatus
 import com.example.BE.domain.verification.domain.repository.VerificationRepository
 import org.springframework.stereotype.Component
 
@@ -23,6 +24,9 @@ class SpotFacade(
         spotRepository.findByIdAndContent_Id(spotId, contentId)
             ?: throw SdsrException(ErrorCode.SPOT_NOT_FOUND)
 
-    fun countVerifications(spotId: Long): Int =
-        verificationRepository.countBySpot_Id(spotId).toInt()
+    fun findSuccessVerificationImageUrl(spotId: Long): String? =
+        verificationRepository.findFirstBySpot_IdAndStatusOrderByVerifiedAtDesc(
+            spotId = spotId,
+            status = VerificationStatus.SUCCESS,
+        )?.imageUrl
 }

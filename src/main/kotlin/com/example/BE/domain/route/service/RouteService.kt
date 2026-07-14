@@ -1,67 +1,13 @@
 package com.example.BE.domain.route.service
 
-import com.example.BE.domain.route.facade.RouteSpotFacade
 import com.example.BE.domain.route.presentation.dto.request.AiRecommendationRequest
-import com.example.BE.domain.route.presentation.dto.request.RouteOrderRequest
 import com.example.BE.domain.route.presentation.dto.response.AiRecommendationMetaResponse
 import com.example.BE.domain.route.presentation.dto.response.AiRecommendationResponse
-import com.example.BE.domain.route.presentation.dto.response.RouteAddResponse
-import com.example.BE.domain.route.presentation.dto.response.RouteRemoveResponse
-import com.example.BE.domain.route.presentation.dto.response.RouteSpotItemResponse
-import com.example.BE.domain.route.presentation.dto.response.RouteSpotListResponse
 import com.example.BE.domain.route.presentation.dto.response.TimelineItemResponse
-import com.example.BE.domain.spot.domain.Spot
-import com.example.BE.domain.spot.facade.SpotFacade
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-class RouteService(
-    private val spotFacade: SpotFacade,
-    private val routeSpotFacade: RouteSpotFacade,
-) {
-    @Transactional
-    fun addRouteSpot(spotId: Long): RouteAddResponse {
-        val spot = spotFacade.getSpot(spotId)
-
-        if (!routeSpotFacade.existsRouteSpot(spotId)) {
-            val nextOrder = routeSpotFacade.findAllRouteSpots().size + 1
-            routeSpotFacade.saveRouteSpot(spot = spot, selectedOrder = nextOrder)
-        }
-
-        return RouteAddResponse(spotId = spotId, added = true)
-    }
-
-    @Transactional
-    fun removeRouteSpot(spotId: Long): RouteRemoveResponse {
-        val routeSpot = routeSpotFacade.findRouteSpot(spotId)
-        val removed = routeSpot != null
-        if (routeSpot != null) {
-            routeSpotFacade.deleteRouteSpot(routeSpot)
-            reorderPersistedRouteSpots()
-        }
-
-        return RouteRemoveResponse(spotId = spotId, removed = removed)
-    }
-
-    @Transactional
-    fun reorderRouteSpots(request: RouteOrderRequest): RouteSpotListResponse {
-        routeSpotFacade.deleteAllRouteSpots()
-        request.spotIds.forEachIndexed { index, spotId ->
-            val spot = spotFacade.getSpot(spotId)
-            routeSpotFacade.saveRouteSpot(spot = spot, selectedOrder = index + 1)
-        }
-
-        return routeSpots()
-    }
-
-    fun routeSpots(): RouteSpotListResponse {
-        val items = routeSpotFacade.findAllRouteSpots()
-            .map { it.spot.toRouteItem(it.selectedOrder) }
-
-        return RouteSpotListResponse(content = items, totalElements = items.size)
-    }
-
+class RouteService {
     fun recommendRoute(request: AiRecommendationRequest): AiRecommendationResponse =
         AiRecommendationResponse(
             status = 200,
@@ -100,28 +46,5 @@ class RouteService(
                     activity = "이동(11분) 후 감성 로컬 카페에서 디저트 및 티타임",
                 ),
             ),
-        )
-
-    private fun reorderPersistedRouteSpots() {
-        routeSpotFacade.findAllRouteSpots()
-            .forEachIndexed { index, routeSpot ->
-                routeSpot.selectedOrder = index + 1
-                routeSpotFacade.save(routeSpot)
-            }
-    }
-
-    private fun Spot.toRouteItem(selectedOrder: Int): RouteSpotItemResponse =
-        RouteSpotItemResponse(
-            spotId = id ?: 0,
-            contentId = content.id ?: 0,
-            contentTitle = content.title,
-            name = name,
-            latitude = latitude,
-            longitude = longitude,
-            kakaoPlaceId = kakaoPlaceId,
-            imageUrl = imageUrl,
-            sceneDescription = sceneDescription,
-            mapLink = "https://map.kakao.com/link/map/$name,$latitude,$longitude",
-            selectedOrder = selectedOrder,
         )
 }

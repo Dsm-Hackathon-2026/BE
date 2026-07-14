@@ -37,6 +37,9 @@ class Spot(
     @Column(name = "kakao_place_id", nullable = false)
     var kakaoPlaceId: String,
 
+    @Column(name = "address", nullable = false)
+    var address: String = "",
+
     @Column(name = "image_url", nullable = false)
     var imageUrl: String,
 
