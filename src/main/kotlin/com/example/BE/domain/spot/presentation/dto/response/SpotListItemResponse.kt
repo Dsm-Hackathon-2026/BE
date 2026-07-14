@@ -9,12 +9,6 @@ data class SpotListItemResponse(
     @field:Schema(example = "강릉 연진 해변")
     val name: String,
 
-    @field:Schema(example = "37.752175")
-    val latitude: Double,
-
-    @field:Schema(example = "128.876057")
-    val longitude: Double,
-
     @field:Schema(example = "강원특별자치도 강릉시 주문진읍 해안로 1609")
     val address: String,
 
