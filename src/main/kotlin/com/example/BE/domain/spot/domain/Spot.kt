@@ -39,9 +39,6 @@ class Spot(
 
     @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
     var imageUrl: String,
-
-    @Column(name = "scene_description", nullable = false)
-    var sceneDescription: String,
 ) {
     @OneToMany(mappedBy = "spot")
     var verifications: MutableList<Verification> = mutableListOf()
