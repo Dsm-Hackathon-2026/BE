@@ -26,4 +26,7 @@ data class SpotDetailResponse(
 
     @field:Schema(example = "https://example.com/spot/image.jpg")
     val imageUrl: String,
+
+    @field:Schema(example = "https://example.com/verification/image.jpg")
+    val verificationImageUrl: String? = null,
 )

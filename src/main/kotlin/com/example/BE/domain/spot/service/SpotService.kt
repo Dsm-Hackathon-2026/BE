@@ -20,6 +20,7 @@ class SpotService(
 
     fun spotDetail(contentId: Long, spotId: Long): SpotDetailResponse {
         val spot = spotFacade.getSpotByContent(contentId, spotId)
+        val verificationImageUrl = spotFacade.findSuccessVerificationImageUrl(spot.id ?: 0)
 
         return SpotDetailResponse(
             spotId = spot.id ?: 0,
@@ -30,6 +31,7 @@ class SpotService(
             longitude = spot.longitude,
             address = spot.address,
             imageUrl = spot.imageUrl,
+            verificationImageUrl = verificationImageUrl,
         )
     }
 
