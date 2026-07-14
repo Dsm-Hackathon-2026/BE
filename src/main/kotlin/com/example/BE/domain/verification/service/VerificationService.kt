@@ -54,10 +54,8 @@ class VerificationService(
             spotName = spot.name,
             contentTitle = spot.content.title,
             imageUrl = imageUrl,
-            distanceMeters = "%.1f".format(distanceMeters).toDouble(),
-            status = status.name,
+            status = status,
             verifiedAt = verifiedAt.toString(),
-            badgeName = if (status == VerificationStatus.SUCCESS) "방문 완료 배지" else null,
         )
     }
 
