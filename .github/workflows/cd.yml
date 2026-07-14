@@ -59,6 +59,7 @@ jobs:
             echo ">>> Running new container with .env..."
             sudo docker run -d \
               --name sdsr-backend \
+              --restart unless-stopped \
               -p 8080:8080 \
               --env-file /home/ubuntu/.env \
               ${{ secrets.DOCKER_USERNAME }}/sdsr-backend:latest
