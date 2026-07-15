@@ -24,7 +24,7 @@ class VerificationController(
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "방문 인증",
-        description = "인증 사진 파일을 제출합니다.",
+        description = "인증 사진 파일과 현재 위치를 제출합니다. 촬영지와 가까우면 인증 성공으로 처리합니다.",
     )
     @ApiResponses(
         SwaggerApiResponse(responseCode = "200", description = "방문 인증 성공"),
@@ -33,10 +33,14 @@ class VerificationController(
     fun verifyVisit(
         @RequestParam spotId: Long,
         @RequestParam image: MultipartFile,
+        @RequestParam latitude: Double,
+        @RequestParam longitude: Double,
     ): VerificationResultResponse {
         return verificationService.verifyVisit(
             spotId = spotId,
             image = image,
+            latitude = latitude,
+            longitude = longitude,
         )
     }
 }

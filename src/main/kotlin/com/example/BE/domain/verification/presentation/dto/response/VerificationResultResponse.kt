@@ -20,7 +20,7 @@ data class VerificationResultResponse(
     val sceneImageUrl: String,
 
     @field:Schema(example = "https://sdsr-bucket.s3.ap-northeast-2.amazonaws.com/verifications/sample.jpg")
-    val verificationImageUrl: String,
+    val verificationImageUrl: String?,
 
     @field:Schema(example = "SUCCESS")
     val status: VerificationStatus,
