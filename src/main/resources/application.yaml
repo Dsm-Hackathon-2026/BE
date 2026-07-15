@@ -45,3 +45,4 @@ cloud:
 ai:
   base-url: ${AI_BASE_URL}
   recommend-path: ${AI_RECOMMEND_PATH}
+  pilgrimage-path: ${AI_PILGRIMAGE_PATH}

@@ -1,6 +1,7 @@
 package com.example.BE.domain.route.presentation
 
 import com.example.BE.domain.route.presentation.dto.request.AiRecommendationRequest
+import com.example.BE.domain.route.presentation.dto.request.PilgrimageRouteRequest
 import com.example.BE.domain.route.presentation.dto.response.AiRecommendationResponse
 import com.example.BE.domain.route.service.RouteService
 import io.swagger.v3.oas.annotations.Operation
@@ -31,5 +32,18 @@ class RouteController(
     @ResponseStatus(HttpStatus.OK)
     fun recommendRoute(@RequestBody request: AiRecommendationRequest): AiRecommendationResponse {
         return routeService.recommendRoute(request)
+    }
+
+    @PostMapping("/pilgrimage")
+    @Operation(
+        summary = "성지순례 루트 추천 요청",
+        description = "출발지, 출발 시간, 선택한 여러 촬영지를 기반으로 성지순례 타임라인 코스를 추천합니다.",
+    )
+    @ApiResponses(
+        SwaggerApiResponse(responseCode = "200", description = "성지순례 루트 추천 성공"),
+    )
+    @ResponseStatus(HttpStatus.OK)
+    fun recommendPilgrimageRoute(@RequestBody request: PilgrimageRouteRequest): AiRecommendationResponse {
+        return routeService.recommendPilgrimageRoute(request)
     }
 }
